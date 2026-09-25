@@ -28,9 +28,9 @@ ${current_date}=
     ClickText          Verify 
     ${ran_string}=             Generate Random String      5
 #     ${current_date}=           Get Current Date            result_format= %H:%M
-#     ${closed_date}=            Get Current Date            increment= 7days            result_format=%m/%d/%Y
-    ${current_date}=           22/10/2026  
-    ${closed_date}=            25/10/2026    
+#      ${closed_date}=            Get Current Date            increment= 7days            result_format=%m/%d/%Y  
+${current_date}=    Set Variable    14:30
+    ${closed_date}=     Set Variable    10/02/2026
     ${opp_name}                Catenate                    ${ran_string}               ${current_date}
     ClickText                  Opportunities
     ClickText                  New                         partial_match= False
