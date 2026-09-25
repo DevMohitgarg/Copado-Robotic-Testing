@@ -26,86 +26,83 @@ ${current_date}=
     ClickText         Log In
     TypeText           Verification Code        ${verification_code}
     ClickText          Verify 
-    ${ran_string}=             Generate Random String      5
-#     ${current_date}=           Get Current Date            result_format= %H:%M
-#      ${closed_date}=            Get Current Date            increment= 7days            result_format=%m/%d/%Y  
-${current_date}=    Set Variable    14:30
-    ${closed_date}=     Set Variable    10/02/2026
-    ${opp_name}                Catenate                    ${ran_string}               ${current_date}
-    ClickText                  Opportunities
-    ClickText                  New                         partial_match= False
-    Sleep                      2s
-    UseModal                   On
-    ClickText                  Opportunity Name
-    TypeText                   Opportunity Name            ${opp_name}
-    Sleep                      2s
-    ClickText                  Close Date
-    TypeText                   Close Date                  ${closed_date}
-    Sleep                      2s
-    CLickText                  Stage
-    PickList                   Stage                       Qualification
-    Sleep                      2s
-    ClickText                  Save                        partial_match= False
-    ClickText                  Details
-    ClickText                  xpath\=//article[@aria-label\='Products']//div[@class\='actionsContainer']
-    UseModal                   On
-    CLickText                  Choose Price Book           partial_match= True
-    Sleep                      5s
-    ClickText                  Price Book
-    TypeText                   Price Book                  Standard
-    ClickText                  Save                        partial_match= False
-    Sleep                      2s
-    ClickText                  xpath\=//article[@aria-label\='Products']//div[@class\='actionsContainer']
-    ClickText                  Add Products
-    ClickElement               xpath=//input[@aria-describedby='Search']
-    @{product_name}            Create List                 GenWatt Diesel 1000kW       Installation: Portable      Installation: Industrial - Low
-    @{product_quantity}        Create List                 1                        3                        2
-    # ClickCheckbox            GenWatt Diesel 1000kW       on
-    # ClickText                Next                        partial_match= False
-    # UseModal                 On
-    # ClickText                Quantity
-    # TypeText                 Quantity                    1
-    # CLickText                Save                        partial_match= False
-    FOR                        ${product_item}             IN                          @{product_name}
-        TypeText               Search Products             ${product_item}
-        ClickElement           xpath=//lightning-icon[@icon-name='utility:search']
-        ClickElement           xpath=//div[@role='listbox']
-        ClickCheckbox          ${product_item}             on
-    END
-    ClickText                  Next                        partial_match= False
-    FOR                        ${index}                    ${Product}                  IN ENUMERATE                @{product_name}
-        ClickElement           xpath=//tr[.//a[text()='${Product}']]//button[contains(@title,'Edit Quantity')]     clicks=2
-        TypeText               Quantity                    ${product_quantity}[${index}]                           anchor=${Product}
-    END
-    ClickText              Save
-    ClickText              Products                        partial_match=False
+    ${ran_string}=              Generate Random String      5
+    ${current_date}=            Get Current Date            result_format=%H:%M
+    ${closed_date}=             Get Current Date            increment=7 days    result_format=%m/%d/%Y
+    ${opp_name}=                Catenate                    ${ran_string}               ${current_date}
+    ClickText                  Opportunities
+    ClickText                  New                         partial_match= False
+    Sleep                      2s
+    UseModal                   On
+    ClickText                  Opportunity Name
+    TypeText                   Opportunity Name            ${opp_name}
+    Sleep                      2s
+    ClickText                  Close Date
+    TypeText                   Close Date                  ${closed_date}
+    Sleep                      2s
+    CLickText                  Stage
+    PickList                   Stage                       Qualification
+    Sleep                      2s
+    ClickText                  Save                        partial_match= False
+    ClickText                  Details
+    ClickText                  xpath\=//article[@aria-label\='Products']//div[@class\='actionsContainer']
+    UseModal                   On
+    CLickText                  Choose Price Book           partial_match= True
+    Sleep                      5s
+    ClickText                  Price Book
+    TypeText                   Price Book                  Standard
+    ClickText                  Save                        partial_match= False
+    Sleep                      2s
+    ClickText                  xpath\=//article[@aria-label\='Products']//div[@class\='actionsContainer']
+    ClickText                  Add Products
+    ClickElement               xpath=//input[@aria-describedby='Search']
+    @{product_name}            Create List                 GenWatt Diesel 1000kW       Installation: Portable      Installation: Industrial - Low
+    @{product_quantity}        Create List                 1                        3                        2
+    # ClickCheckbox            GenWatt Diesel 1000kW       on
+    # ClickText                Next                        partial_match= False
+    # UseModal                 On
+    # ClickText                Quantity
+    # TypeText                 Quantity                    1
+    # CLickText                Save                        partial_match= False
+    FOR                        ${product_item}             IN                          @{product_name}
+        TypeText               Search Products             ${product_item}
+        ClickElement           xpath=//lightning-icon[@icon-name='utility:search']
+        ClickElement           xpath=//div[@role='listbox']
+        ClickCheckbox          ${product_item}             on
+    END
+    ClickText                  Next                        partial_match= False
+    FOR                        ${index}                    ${Product}                  IN ENUMERATE                @{product_name}
+        ClickElement           xpath=//tr[.//a[text()='${Product}']]//button[contains(@title,'Edit Quantity')]     clicks=2
+        TypeText               Quantity                    ${product_quantity}[${index}]                           anchor=${Product}
+    END
+    ClickText              Save
+    ClickText              Products                        partial_match=False
 
-    &{product_price}       Create Dictionary
-    &{product_quantity}    Create Dictionary
-    FOR    ${prod}    IN                        @{product_name}
-        ${quantity}=                        Get Text       xpath\=//tr[.//a[text()\='${prod}']]//span[contains(@class,'uiOutputNumber')]
-        ${sales_price}=                     Get Text       xpath\=//tr[.//a[text()\='${prod}']]//span[contains(@class,'forceOutputCurrency')]
-        ${product_quantity}[${prod}]=       Set Variable    ${quantity}
-        ${product_price}=                   Set Variable    ${sales_price}
-    END
-    ${total_amount}=    Set Variable    0
-    FOR                 ${produ}        IN      @{product_name}
-        ${quantity}=       Convert To Number    ${quantity}
-        ${sales_price}=    Remove String    ${sales_price}    $    ,
-        ${product_total}=                   Evaluate          ${quantity} * ${sales_price}
-        ${total_amount}=                    Evaluate          ${total_amount} + ${product_total}
-    END
-    ClickElement                        xpath=//a[contains(text(),'${opp_name}')]
-    CLickText                        Details
-    ${opportunity_amount}=           Get Text                 xpath\=//sfa-output-opportunity-amount[@slot\='outputField']
-    ${opportunity_amount}=    Remove String    ${opportunity_amount}    $    ,
-    ${opportunity_amount}     Convert To Number                        ${opportunity_amount}
-    IF    ${total_amount} == ${opportunity_amount}
-        Log To Console        Product Total And Opportunity Amount Are Equal
-    ELSE
-        Log    Product Total and Opportunity Amount are NOT equal
-        END      
-        
+    &{product_price}       Create Dictionary
+    &{product_quantity}    Create Dictionary
+    FOR    ${prod}    IN                        @{product_name}
+        ${quantity}=                        Get Text       xpath\=//tr[.//a[text()\='${prod}']]//span[contains(@class,'uiOutputNumber')]
+        ${sales_price}=                     Get Text       xpath\=//tr[.//a[text()\='${prod}']]//span[contains(@class,'forceOutputCurrency')]
+        ${product_quantity}[${prod}]=       Set Variable    ${quantity}
+        ${product_price}=                   Set Variable    ${sales_price}
+    END
+    ${total_amount}=    Set Variable    0
+    FOR                 ${produ}        IN      @{product_name}
+        ${quantity}=       Convert To Number    ${quantity}
+        ${sales_price}=    Remove String    ${sales_price}    $    ,
+        ${product_total}=                   Evaluate          ${quantity} * ${sales_price}
+        ${total_amount}=                    Evaluate          ${total_amount} + ${product_total}
+    END
+    ClickElement                        xpath=//a[contains(text(),'${opp_name}')]
+    CLickText                        Details
+    ${opportunity_amount}=           Get Text                 xpath\=//sfa-output-opportunity-amount[@slot\='outputField']
+    ${opportunity_amount}=    Remove String    ${opportunity_amount}    $    ,
+    ${opportunity_amount}     Convert To Number                        ${opportunity_amount}
+    IF    ${total_amount} == ${opportunity_amount}
+        Log To Console        Product Total And Opportunity Amount Are Equal
+    ELSE
+        Log    Product Total and Opportunity Amount are NOT equal
+        END
 
 
 # Create a new lead record
