@@ -4,7 +4,15 @@
 
 *** Settings ***
 
-Library    QWeb
+Library                      String
+Documentation                New test suite
+Library                      QForce
+Library                      QWeb
+Library                      Collections
+# Library                    QMobile
+Library                      Collections
+Suite Setup                  Open Browser                about:blank                 chrome
+Suite Teardown               Close All Browsers
 
 *** Test Cases ***
     OpenBrowser    about:blank    chrome
