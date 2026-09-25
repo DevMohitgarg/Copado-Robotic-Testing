@@ -9,10 +9,13 @@ Documentation                New test suite
 Library                      QForce
 Library                      QWeb
 Library                      Collections
+Library    DateTime
 # Library                    QMobile
 Library                      Collections
 Suite Setup                  Open Browser                about:blank                 chrome
 Suite Teardown               Close All Browsers
+*** Variables ***
+${current_date}=
 
 *** Test Cases ***
     OpenBrowser    about:blank    chrome
@@ -24,8 +27,10 @@ Suite Teardown               Close All Browsers
     TypeText           Verification Code        ${verification_code}
     ClickText          Verify 
     ${ran_string}=             Generate Random String      5
-    ${current_date}=           Get Current Date            result_format= %H:%M
-    ${closed_date}=            Get Current Date            increment= 7days            result_format=%m/%d/%Y
+#     ${current_date}=           Get Current Date            result_format= %H:%M
+#     ${closed_date}=            Get Current Date            increment= 7days            result_format=%m/%d/%Y
+    ${current_date}=           22/10/2026  
+    ${closed_date}=            25/10/2026    
     ${opp_name}                Catenate                    ${ran_string}               ${current_date}
     ClickText                  Opportunities
     ClickText                  New                         partial_match= False
