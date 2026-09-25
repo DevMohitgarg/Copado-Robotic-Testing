@@ -70,6 +70,7 @@ ${current_date}=
         ClickElement           xpath=//div[@role='listbox']
         ClickCheckbox          ${product_item}             on
     END
+    Sleep                      2s
     ClickText                  Next                        partial_match= False
     FOR                        ${index}                    ${Product}                  IN ENUMERATE                @{product_name}
         ClickElement           xpath=//tr[.//a[text()='${Product}']]//button[contains(@title,'Edit Quantity')]     clicks=2
