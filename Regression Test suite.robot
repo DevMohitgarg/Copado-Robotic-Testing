@@ -29,7 +29,6 @@ Login to Salesforce
     TypeText           Verification Code        ${verification_code}
     ClickText          Verify       
 
-Assignment 
 Lead Creation and Conversion
     ${RandomSuffix}       Generate Random String      5                      [LETTERS][NUMBER]
     ${CurrentTime}        Get Current Date            result_format=%H:%M
