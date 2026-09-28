@@ -3,6 +3,7 @@
 
 *** Settings ***
 Library                      String
+Library    DateTime
 Documentation                New test suite
 # You can change imported library to "QWeb" if testing generic web application, not Salesforce.
 Library                      QForce
