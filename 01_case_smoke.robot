@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation    Smoke: fast critical-path checks (run on every deployment).
-Resource         ../resources/common.robot
-Resource         ../resources/case_keywords.robot
+Resource         ./resources/common.robot
+Resource         ./resources/case_keywords.robot
 Suite Setup      Setup Browser
 Suite Teardown   End Suite
 Test Teardown    Run Keywords    Capture Debug Info On Failure    AND    Delete Current Case
