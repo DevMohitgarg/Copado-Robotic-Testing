@@ -1,5 +1,6 @@
 *** Settings ***
 Library     QWeb
+Library    QForce
 
 *** Variables ***
 ${CASE}         ${EMPTY}
