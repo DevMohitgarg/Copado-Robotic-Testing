@@ -5,7 +5,7 @@ Resource         ./resources/case_keywords.robot
 Suite Setup      Setup Browser
 Suite Teardown   End Suite
 Test Teardown    Run Keywords    Capture Debug Info On Failure    AND    Delete Current Case
-Force Tags       case-mgmt    smoke
+Test Tags       case-mgmt    smoke
 
 *** Test Cases ***
 TC001 Create Case With Dynamic Data
