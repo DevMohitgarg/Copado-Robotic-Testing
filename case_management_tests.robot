@@ -77,8 +77,11 @@ Setup Browser
 Login To Salesforce
     GoTo        ${LOGIN_URL}
     TypeText    Username    ${SF_USERNAME}
+    ClickText   Log In
     TypeSecret  Password    ${SF_PASSWORD}
     ClickText   Log In
+    TypeText    verification code    ${verification_code}
+    ClickText                        Verify
     VerifyText  Home        timeout=${LONG}
 
 End Suite
