@@ -8,9 +8,9 @@ Library     Collections
 *** Variables ***
 ${BROWSER}          chrome
 ${APP}              Service
-${LOGIN_URL}        ${EMPTY}     # supplied by CRT job variables / secrets
-${SF_USERNAME}      ${EMPTY}
-${SF_PASSWORD}      ${EMPTY}
+# ${LOGIN_URL}        ${EMPTY}     # supplied by CRT job variables / secrets
+# ${SF_USERNAME}      ${EMPTY}
+# ${SF_PASSWORD}      ${EMPTY}
 ${SHORT}            10s
 ${LONG}             30s
 
@@ -28,6 +28,8 @@ Login To Salesforce
     TypeText    Username    ${SF_USERNAME}
     TypeSecret  Password    ${SF_PASSWORD}
     ClickText   Log In
+    TypeText    Verification code    ${verification_code}
+    ClickText                        Log In
     VerifyText  Home        timeout=${LONG}
 
 End Suite
