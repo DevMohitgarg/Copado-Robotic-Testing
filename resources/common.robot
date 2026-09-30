@@ -26,14 +26,15 @@ Setup Browser
 Login To Salesforce
     GoTo        ${LOGIN_URL}
     TypeText    Username    ${SF_USERNAME}
+    ClickText               Log In
     TypeSecret  Password    ${SF_PASSWORD}
-    ClickText   Log In
-    TypeText    Verification code    ${verification_code}
-    ClickText                        Log In
+    ClickText               Log In
+    TypeText    Verification Code    ${verification_code}
+    ClickText                        Verify
     VerifyText  Home        timeout=${LONG}
 
-End Suite
-    Close All Browsers
+# End Suite
+#     Close All Browsers
 
 Return To Cases List
     LaunchApp    ${APP}
