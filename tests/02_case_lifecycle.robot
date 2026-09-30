@@ -5,7 +5,7 @@ Resource         ../resources/case_keywords.robot
 Suite Setup      Setup Browser
 Suite Teardown   End Suite
 Test Teardown    Run Keywords    Capture Debug Info On Failure    AND    Delete Current Case
-Force Tags       case-mgmt    regression
+Test Tags       case-mgmt    regression
 
 *** Test Cases ***
 
