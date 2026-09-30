@@ -5,7 +5,7 @@ Resource         ../resources/case_keywords.robot
 Suite Setup      Setup Browser
 Suite Teardown   End Suite
 Test Teardown    Capture Debug Info On Failure
-Force Tags       case-mgmt    negative
+Test Tags       case-mgmt    negative
 
 *** Test Cases ***
 TC201 Cannot Save Case Without Required Fields
