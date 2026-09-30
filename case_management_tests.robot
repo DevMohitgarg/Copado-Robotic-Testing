@@ -7,14 +7,13 @@ Library          DateTime
 Library          Collections
 Suite Setup      Setup Browser
 Suite Teardown   End Suite
-Test Teardown    Run Keywords
-...    Capture Debug Info On Failure    ${TEST NAME}
-...    AND    Delete Current Case
+Test Teardown    Run Keywords    Capture Debug Info On Failure    ${TEST NAME}    AND    Delete Current Case
 
 *** Variables ***
 ${BROWSER}          chrome
 ${APP}              Service
-${LOGIN_URL}        ${EMPTY}     # supplied by CRT job variables / secrets
+# --- IMPORTANT: set these 3 as CRT Job Variables / Secrets, NOT here ---
+${LOGIN_URL}        ${EMPTY}
 ${SF_USERNAME}      ${EMPTY}
 ${SF_PASSWORD}      ${EMPTY}
 ${SHORT}            10s
@@ -67,21 +66,28 @@ TC201 Cannot Save Case Without Required Fields
 *** Keywords ***
 # ---------- Setup / Teardown ----------
 Setup Browser
-    [Documentation]    Suite setup: open browser, log in, launch the Service app.
+    [Documentation]    Suite setup: validate config, open browser, log in, launch Service app.
+    Validate Required Variables
     Set Library Search Order    QForce    QWeb
     Open Browser    about:blank    ${BROWSER}
     SetConfig       DefaultTimeout    ${LONG}
     Login To Salesforce
     LaunchApp       ${APP}
 
+Validate Required Variables
+    [Documentation]    Fails fast with a clear message if job variables/secrets are missing.
+    Run Keyword If    '${LOGIN_URL}' == '${EMPTY}'
+    ...    Fail    LOGIN_URL is not set. Set it as a CRT job variable before running.
+    Run Keyword If    '${SF_USERNAME}' == '${EMPTY}'
+    ...    Fail    SF_USERNAME is not set. Set it as a CRT job variable/secret before running.
+    Run Keyword If    '${SF_PASSWORD}' == '${EMPTY}'
+    ...    Fail    SF_PASSWORD is not set. Set it as a CRT job secret before running.
+
 Login To Salesforce
     GoTo        ${LOGIN_URL}
     TypeText    Username    ${SF_USERNAME}
-    ClickText   Log In
     TypeSecret  Password    ${SF_PASSWORD}
     ClickText   Log In
-    TypeText    verification code    ${verification_code}
-    ClickText                        Verify
     VerifyText  Home        timeout=${LONG}
 
 End Suite
@@ -173,9 +179,9 @@ Verify Status Change
 
 Delete Current Case
     [Documentation]    Teardown cleanup so the sandbox stays clean.
-    Run Keyword If    '${CASE_URL}' != ''    Run Keyword And Ignore Error    GoTo    ${CASE_URL}
-    Run Keyword If    '${CASE_URL}' != ''    Run Keyword And Ignore Error    ClickText    Delete
-    Run Keyword If    '${CASE_URL}' != ''    Run Keyword And Ignore Error    ClickText    Delete    anchor=Cancel
+    Run Keyword If    '${CASE_URL}' != '${EMPTY}'    Run Keyword And Ignore Error    GoTo    ${CASE_URL}
+    Run Keyword If    '${CASE_URL}' != '${EMPTY}'    Run Keyword And Ignore Error    ClickText    Delete
+    Run Keyword If    '${CASE_URL}' != '${EMPTY}'    Run Keyword And Ignore Error    ClickText    Delete    anchor=Cancel
 
 # ---------- Debug / Reporting ----------
 Capture Debug Info On Failure
